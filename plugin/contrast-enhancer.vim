@@ -1,4 +1,4 @@
-pf !has('nvim-0.5.0')
+if !has('nvim-0.5.0')
   echoerr
   finish
 end
