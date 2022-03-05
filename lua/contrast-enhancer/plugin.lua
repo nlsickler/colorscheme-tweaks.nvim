@@ -31,12 +31,15 @@ local function getHighlightGroups()
         currKey = entry
       elseif idx >= 3 and string.find(entry, 'gui') then
         local kvs = stringSplit(entry, '=') --guifg=#ffffff
-        print('Parser key: '..currKey..' KVS: '..kvs[1]..' '..kvs[2])
-        local highInput = {}
-        highInput[kvs[1]] = kvs[2]
-        local input = {}
-        input[currKey] = highInput
-        table.insert(commands, input)
+
+        if string.find(kvs[2], '#') and string.lower(kvs[2]) ~= '#none' then
+          local highInput = {}
+          highInput[kvs[1]] = kvs[2]
+          local input = {}
+          input[currKey] = highInput
+          table.insert(commands, input)
+        end
+
       end
     end
   end
@@ -45,26 +48,26 @@ local function getHighlightGroups()
 end
 
 M.increaseContrastBy = function(increaseFactor)
+  print('Increasing contrast by '..increaseFactor)
+
   local colors = getHighlightGroups()
 
   -- Loops to increase contrast of existing color schemes
   for _, val in pairs(colors) do
     if type(val) == 'table' then
       for key, nval in pairs(val) do
-        print('KEY: '..key)
         for ctype, cval in pairs(nval) do
           if(increaseFactor == 0) then
-            print('Increase factor of 0 means no change.  Specify the (0,1] percentage value to change the contrast of colors')
-          elseif(increaseFactor > 0 and string.find(cval, '#')) then
+          elseif(increaseFactor > 0) then
             local newValue = util.increaseContrast(cval, increaseFactor)
             local command = 'highlight '..key..' '..ctype..'='..newValue
             print(command)
-            vim.cmd(command)
-          elseif(string.find(cval, '#')) then
+            -- vim.cmd(command)
+          else
             local newValue = util.decreaseContrast(cval, -1 * increaseFactor)
             local command = 'highlight '..key..' '..ctype..'='..newValue
             print(command)
-            vim.cmd(command)
+            -- vim.cmd(command)
           end
         end
       end
@@ -73,6 +76,7 @@ M.increaseContrastBy = function(increaseFactor)
 end
 
 M.parseCommand = function(args)
+  print(args)
   return M.increaseContrastBy(args)
 end
 

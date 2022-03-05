@@ -1,39 +1,11 @@
 -- Most of this module is cobbled together from tokyonight's code base
 local util = {}
-local hsluv = {}
+local hsluv = require('contrast-enhancer.hsluv')
 
 local hexChars = "0123456789abcdef"
 
 util.bg = "#000000"
 util.fg = "#ffffff"
-
-hsluv.rgb_to_hex = function(tuple)
-  local h = "#"
-  for i = 1, 3 do
-    local c = math.floor(tuple[i] * 255 + 0.5)
-    local digit2 = math.fmod(c, 16)
-    local x = (c - digit2) / 16
-    local digit1 = math.floor(x)
-    h = h .. string.sub(hexChars, digit1 + 1, digit1 + 1)
-    h = h .. string.sub(hexChars, digit2 + 1, digit2 + 1)
-  end
-  return h
-end
-
-hsluv.hex_to_rgb = function(hex)
-  hex = string.lower(hex)
-  local ret = {}
-  for i = 0, 2 do
-    local char1 = string.sub(hex, i * 2 + 2, i * 2 + 2)
-    local char2 = string.sub(hex, i * 2 + 3, i * 2 + 3)
-    local digit1 = string.find(hexChars, char1) - 1
-    local digit2 = string.find(hexChars, char2) - 1
-    ret[i + 1] = (digit1 * 16 + digit2) / 255.0
-  end
-  return ret
-end
-
-
 
 local function hexToRgb(hex_str)
   local hex = "[abcdef0-9][abcdef0-9]"
