@@ -4,4 +4,5 @@ if !has('nvim-0.5.0')
 end
 
 "Define the command
-command! -nargs=* EnhanceContrast lua require('contrast-enhancer.plugin').parseCommand(<line1>)
+command! -nargs=* IncreaseContrast lua require('contrast-enhancer.plugin').increaseContrastBy(<args>)
+command! -nargs=* DecreaseContrast lua require('contrast-enhancer.plugin').decreaseContrastBy(<args>)

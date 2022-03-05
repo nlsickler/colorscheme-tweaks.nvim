@@ -48,8 +48,6 @@ local function getHighlightGroups()
 end
 
 M.increaseContrastBy = function(increaseFactor)
-  print('Increasing contrast by '..increaseFactor)
-
   local colors = getHighlightGroups()
 
   -- Loops to increase contrast of existing color schemes
@@ -61,18 +59,34 @@ M.increaseContrastBy = function(increaseFactor)
           elseif(increaseFactor > 0) then
             local newValue = util.increaseContrast(cval, increaseFactor)
             local command = 'highlight '..key..' '..ctype..'='..newValue
-            print(command)
-            -- vim.cmd(command)
-          else
-            local newValue = util.decreaseContrast(cval, -1 * increaseFactor)
-            local command = 'highlight '..key..' '..ctype..'='..newValue
-            print(command)
-            -- vim.cmd(command)
+            -- print(command)
+            vim.cmd(command)
           end
         end
       end
     end
   end
+end
+
+M.decreaseContrastBy = function(decreaseFactor)
+  local colors = getHighlightGroups()
+
+  -- Loops to increase contrast of existing color schemes
+  for _, val in pairs(colors) do
+    if type(val) == 'table' then
+      for key, nval in pairs(val) do
+        for ctype, cval in pairs(nval) do
+          if(decreaseFactor > 0) then
+            local newValue = util.decreaseContrast(cval, decreaseFactor)
+            local command = 'highlight '..key..' '..ctype..'='..newValue
+            -- print(command)
+            vim.cmd(command)
+          end
+        end
+      end
+    end
+  end
+
 end
 
 M.parseCommand = function(args)
