@@ -16,13 +16,13 @@ While I built this library with the intent of almost exclusively using it with `
 
 ## Examples
 
-### nightfox
+### [nightfox](https://github.com/EdenEast/nightfox.nvim)
 
 Original vs `:IncreaseContrast 0.3`
 
 ![Original](doc/nightfox-orig.png) ![Increased by 30%](doc/nightfox-inc-30.png)
 
-### tokyonight
+### [tokyonight](https://github.com/folke/tokyonight.nvim)
 
 Original (storm) vs `:IncreaseContrast 0.2`
 
