@@ -24,7 +24,7 @@ Original vs `:IncreaseContrast 0.3`
 
 ### [tokyonight](https://github.com/folke/tokyonight.nvim)
 
-Original (storm) vs `:IncreaseContrast 0.2`
+Original (night) vs `:IncreaseContrast 0.2`
 
 ![Original](doc/tokyonight-orig.png) ![Increased by 20%](doc/tokyonight-inc-20.png)
 
