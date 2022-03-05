@@ -17,7 +17,10 @@ end
 
 -- Parse the output of :highlight to get all of the individual line items from a colorscheme
 local function getHighlightGroups()
-  local highlights = vim.cmd([[highlight]])
+  
+
+
+  local highlights = vim.nvim_exec([[highlight]])
   local commands = {}
 
   for row in highlights do
