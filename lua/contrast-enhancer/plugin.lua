@@ -1,4 +1,4 @@
-local util = require('contrast-enhancer.util')
+local util = require('colorscheme-tweaks.util')
 
 local M = {}
 

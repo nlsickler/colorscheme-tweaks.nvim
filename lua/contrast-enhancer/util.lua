@@ -1,6 +1,6 @@
 -- Most of this module is cobbled together from tokyonight's code base
 local util = {}
-local hsluv = require('contrast-enhancer.hsluv')
+local hsluv = require('colorscheme-tweaks.hsluv')
 
 local hexChars = "0123456789abcdef"
 
