@@ -1,4 +1,4 @@
-local util = require('contrast-enhancer.plugin.util')
+local util = require('contrast-enhancer.util')
 
 local M = {}
 
