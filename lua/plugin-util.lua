@@ -1,5 +1,4 @@
 -- Most of this module is cobbled together from tokyonight's code base
-
 local util = {}
 local hsluv = {}
 
@@ -85,7 +84,7 @@ end
 -----------------------
 
 -- Determines if the color channel average is darker than half or brighter than half.
-function util.shouldBrighten(hex)
+function util.isBrighterThanAverage(hex)
   local color = hexToRgb(hex)
   local colorAvg = (color[1] + color[2] + color[3])/3
   if colorAvg >= 128 then
@@ -95,14 +94,26 @@ function util.shouldBrighten(hex)
 end
 
 -- This shifts the given color lighter/darker, based on shouldBrighten.  This
--- usually increases contrast between the background and foreground.  Colors on 
--- the same side of the middle closer will be together, but the overall effect is 
+-- usually increases contrast between the background and foreground.  Colors on
+-- the same side of the middle closer will be together, but the overall effect is
 -- a greater contrast.
 function util.increaseContrast(hex, amount)
-  if util.shouldBrighten(hex) then
+  if util.isBrighterThanAverage(hex) then
     return util.brighten(hex, amount)
   else
     return util.darken(hex, (1-amount))
+  end
+end
+
+-- This shifts the given color lighter/darker, based on shouldBrighten.  This
+-- usually decreases contrast between the background and foreground.  Colors on
+-- the same side of the middle closer will be together, but the overall effect is
+-- a greater contrast.
+function util.decreaseContrast(hex, amount)
+  if util.isBrighterThanAverage(hex) then
+    return util.darken(hex, (1-amount))
+  else
+    return util.brighten(hex, amount)
   end
 end
 

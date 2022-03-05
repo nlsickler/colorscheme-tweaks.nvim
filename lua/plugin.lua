@@ -7,7 +7,6 @@ local function getHighlightGroups()
   -- Use :highlight after the colors are loaded and shift them?
 end
 
-
 M.increaseContrastBy = function(increaseFactor)
   local colors = getHighlightGroups()
 
@@ -22,6 +21,10 @@ M.increaseContrastBy = function(increaseFactor)
     end
   end
 
+end
+
+M.parseCommand = function(args)
+  return M.increaseContrastBy(args)
 end
 
 return M
