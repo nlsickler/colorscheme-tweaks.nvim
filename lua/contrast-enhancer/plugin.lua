@@ -17,22 +17,26 @@ end
 
 -- Parse the output of :highlight to get all of the individual line items from a colorscheme
 local function getHighlightGroups()
-  
+  local highlightOutput = vim.api.nvim_exec([[highlight]], true)
+  local highlights = stringSplit(highlightOutput, '\n')
 
-
-  local highlights = vim.api.nvim_exec([[highlight]], true)
   local commands = {}
 
-  for row in highlights do
+  for _,row in pairs(highlights) do
     -- Sample Input: "SignColumn     xxx ctermfg=14 ctermbg=242 guifg=#292E44 guibg=#12131B"
     local currKey = nil
     local inputs = stringSplit(row)
     for idx, entry in ipairs(inputs) do
-      if idx == 0 then
+      if idx == 1 then
         currKey = entry
-      elseif idx >= 2 and entry.find('gui') > -1 then
+      elseif idx >= 3 and string.find(entry, 'gui') then
         local kvs = stringSplit(entry, '=') --guifg=#ffffff
-        table.insert(commands, { currKey, {kvs[0], kvs[1]}})
+        print('Parser key: '..currKey..' KVS: '..kvs[1]..' '..kvs[2])
+        local highInput = {}
+        highInput[kvs[1]] = kvs[2]
+        local input = {}
+        input[currKey] = highInput
+        table.insert(commands, input)
       end
     end
   end
@@ -44,17 +48,24 @@ M.increaseContrastBy = function(increaseFactor)
   local colors = getHighlightGroups()
 
   -- Loops to increase contrast of existing color schemes
-  for key, val in pairs(colors) do
+  for _, val in pairs(colors) do
     if type(val) == 'table' then
-      for nkey, nval in pairs(val) do
-        if(increaseFactor == 0) then
-          print('Increase factor of 0 means no change.  Specify the (0,1] percentage value to change the contrast of colors')
-        elseif(increaseFactor > 0) then
-          local newValue = util.increaseContrast(nval, increaseFactor)
-          vim.cmd('highlight '..key..' '..nkey..'='..newValue)
-        else
-          local newValue = util.decreaseContrast(nval, -1 * increaseFactor)
-          vim.cmd('highlight '..key..' '..nkey..'='..newValue)
+      for key, nval in pairs(val) do
+        print('KEY: '..key)
+        for ctype, cval in pairs(nval) do
+          if(increaseFactor == 0) then
+            print('Increase factor of 0 means no change.  Specify the (0,1] percentage value to change the contrast of colors')
+          elseif(increaseFactor > 0 and string.find(cval, '#')) then
+            local newValue = util.increaseContrast(cval, increaseFactor)
+            local command = 'highlight '..key..' '..ctype..'='..newValue
+            print(command)
+            vim.cmd(command)
+          elseif(string.find(cval, '#')) then
+            local newValue = util.decreaseContrast(cval, -1 * increaseFactor)
+            local command = 'highlight '..key..' '..ctype..'='..newValue
+            print(command)
+            vim.cmd(command)
+          end
         end
       end
     end
