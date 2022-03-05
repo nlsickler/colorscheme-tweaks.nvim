@@ -14,6 +14,16 @@ While I built this library with the intent of almost exclusively using it with `
 
 `colorscheme-tweaks` exposes two different vim commands - `IncreaseContrast` and `DecreaseContrast` which can be invoked by providing them a numerical value between 0 and 1.  ( Providing a value of 1 will set all colors to either black or white. )
 
+## Examples
+
+### nightfox
+
+![doc/nightfox-orig.png] ![doc/nightfox-inc-30.png]
+
+### tokyonight
+
+![doc/tokyonight-orig.png] ![doc/tokyonight-inc-20.png]
+
 ## Recommendations/Notes
 
 * I recommend `0.2` as a step increment to see if you're headed in the right direction.
