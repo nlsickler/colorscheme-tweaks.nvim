@@ -2,9 +2,39 @@ local util = require('plugin.util')
 
 local M = {}
 
+-- Taken from: https://www.tutorialspoint.com/how-to-split-a-string-in-lua-programming
+local function stringSplit(inputStr, seperator)
+  if(seperator == nil) then
+    seperator = '%s'
+  end
+
+  local t={}
+  for str in string.gmatch(inputStr, "([^"..seperator.."]+)") do
+    table.insert(t, str)
+  end
+  return t
+end
+
+-- Parse the output of :highlight to get all of the individual line items from a colorscheme
 local function getHighlightGroups()
-  -- Use ColorScheme after the colors are loaded to shift them?
-  -- Use :highlight after the colors are loaded and shift them?
+  local highlights = vim.cmd([[highlight]])
+  local commands = {}
+
+  for row in highlights do
+    -- Sample Input: "SignColumn     xxx ctermfg=14 ctermbg=242 guifg=#292E44 guibg=#12131B"
+    local currKey = nil
+    local inputs = stringSplit(row)
+    for idx, entry in ipairs(inputs) do
+      if idx == 0 then
+        currKey = entry
+      elseif idx >= 2 and entry.find('gui') > -1 then
+        local kvs = stringSplit(entry, '=') --guifg=#ffffff
+        table.insert(commands, { currKey, {kvs[0], kvs[1]}})
+      end
+    end
+  end
+
+  return commands
 end
 
 M.increaseContrastBy = function(increaseFactor)
@@ -14,13 +44,18 @@ M.increaseContrastBy = function(increaseFactor)
   for key, val in pairs(colors) do
     if type(val) == 'table' then
       for nkey, nval in pairs(val) do
-        colors[key][nkey] = util.increaseContrast(nval, increaseFactor)
+        if(increaseFactor == 0) then
+          print('Increase factor of 0 means no change.  Specify the (0,1] percentage value to change the contrast of colors')
+        elseif(increaseFactor > 0) then
+          local newValue = util.increaseContrast(nval, increaseFactor)
+          vim.cmd('highlight '..key..' '..nkey..'='..newValue)
+        else
+          local newValue = util.decreaseContrast(nval, -1 * increaseFactor)
+          vim.cmd('highlight '..key..' '..nkey..'='..newValue)
+        end
       end
-    else
-      colors[key] = util.increaseContrast(val, increaseFactor)
     end
   end
-
 end
 
 M.parseCommand = function(args)
