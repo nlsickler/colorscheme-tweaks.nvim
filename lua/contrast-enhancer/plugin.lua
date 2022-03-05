@@ -20,7 +20,7 @@ local function getHighlightGroups()
   
 
 
-  local highlights = vim.nvim_exec([[highlight]])
+  local highlights = vim.api.nvim_exec([[highlight]], true)
   local commands = {}
 
   for row in highlights do
