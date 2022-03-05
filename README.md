@@ -18,11 +18,15 @@ While I built this library with the intent of almost exclusively using it with `
 
 ### nightfox
 
-![doc/nightfox-orig.png] ![doc/nightfox-inc-30.png]
+Original vs `:IncreaseContrast 0.3`
+
+![Original](doc/nightfox-orig.png) ![Increased by 30%](doc/nightfox-inc-30.png)
 
 ### tokyonight
 
-![doc/tokyonight-orig.png] ![doc/tokyonight-inc-20.png]
+Original (storm) vs `:IncreaseContrast 0.2`
+
+![Original](doc/tokyonight-orig.png) ![Increased by 20%](doc/tokyonight-inc-20.png)
 
 ## Recommendations/Notes
 
