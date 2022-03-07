@@ -89,9 +89,4 @@ M.decreaseContrastBy = function(decreaseFactor)
 
 end
 
-M.parseCommand = function(args)
-  print(args)
-  return M.increaseContrastBy(args)
-end
-
 return M

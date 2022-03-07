@@ -83,9 +83,9 @@ end
 -- a greater contrast.
 function util.decreaseContrast(hex, amount)
   if util.isBrighterThanAverage(hex) then
-    return util.darken(hex, (1-amount))
+    return util.darken(hex, (1-amount), '#808080')
   else
-    return util.brighten(hex, amount)
+    return util.lighten(hex, amount, '#808080')
   end
 end
 
