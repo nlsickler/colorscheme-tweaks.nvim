@@ -32,7 +32,7 @@ local function getHighlightGroups()
       elseif idx >= 3 and string.find(entry, 'gui') then
         local kvs = stringSplit(entry, '=') --guifg=#ffffff
 
-        if string.find(kvs[2], '#') and string.lower(kvs[2]) ~= '#none' then
+        if kvs[2] and string.find(kvs[2], '#') and string.lower(kvs[2]) ~= '#none' then
           local highInput = {}
           highInput[kvs[1]] = kvs[2]
           local input = {}
